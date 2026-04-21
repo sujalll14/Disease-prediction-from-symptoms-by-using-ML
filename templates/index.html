@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Disease Prediction System</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+
+<body>
+
+  <!-- Loading Overlay -->
+  <div class="overlay" id="overlay">
+    <div class="spinner-wrap">
+      <div class="spinner"></div>
+      <p>Analyzing symptoms...</p>
+    </div>
+  </div>
+
+  <!-- ── Header ─────────────────────────────────────────────── -->
+  <header class="header">
+    <div class="header-left">
+      <div class="header-icon">🏥</div>
+      <div>
+        <div class="header-title">Disease Prediction System</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="badge" id="modelBadge">Loading model...</div>
+      <div class="pulse-dot"></div>
+    </div>
+  </header>
+
+  <!-- ── Stats Bar ───────────────────────────────────────────── -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div>
+        <div class="stat-val accent" id="statSymptoms">—</div>
+        <div class="stat-lbl">Symptoms</div>
+      </div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div>
+        <div class="stat-val green">20</div>
+        <div class="stat-lbl">Diseases</div>
+      </div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div>
+        <div class="stat-val yellow" id="statAcc">—</div>
+        <div class="stat-lbl">Accuracy</div>
+      </div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div>
+        <div class="stat-val accent" id="statSelected">0</div>
+        <div class="stat-lbl">Selected</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Main Grid ───────────────────────────────────────────── -->
+  <div class="main-grid">
+
+    <!-- LEFT: Symptom Selector -->
+    <div class="left-col">
+      <div class="panel symptom-panel">
+        <div class="panel-header">
+          <span class="panel-icon">🔍</span>
+          <h2>Select Your Symptoms</h2>
+        </div>
+
+        <!-- Search -->
+        <div class="search-wrap">
+          <span class="search-icon">🔎</span>
+          <input class="search-input" id="searchBox" type="text" placeholder="Search symptoms..."
+            oninput="filterSymptoms()" />
+          <button class="search-clear" id="clearSearch" onclick="clearSearch()" style="display:none">✕</button>
+        </div>
+
+        <!-- Tag Filters -->
+        <div class="tag-filters">
+          <button class="tag active" onclick="filterByTag(this,'all')">All</button>
+          <button class="tag" onclick="filterByTag(this,'fever')">🌡 Fever</button>
+          <button class="tag" onclick="filterByTag(this,'pain')">💢 Pain</button>
+          <button class="tag" onclick="filterByTag(this,'respiratory')">🫁 Respiratory</button>
+          <button class="tag" onclick="filterByTag(this,'digestive')">🫃 Digestive</button>
+        </div>
+
+        <!-- Symptom Checkboxes (dynamically populated by JS) -->
+        <div class="symptom-grid" id="symptomsGrid">
+          <div style="grid-column:span 2;text-align:center;padding:24px;color:var(--sub2)">
+            Loading symptoms...
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="action-area">
+        <button class="btn btn-predict" onclick="predict()">
+          <span class="btn-icon">🧠</span> Predict Disease
+        </button>
+        <button class="btn btn-clear" onclick="clearAll()">
+          <span class="btn-icon">🗑</span> Clear All
+        </button>
+      </div>
+      <!-- Disclaimer -->
+
+    </div>
+
+    <!-- RIGHT: Results + Charts -->
+    <div class="right-col">
+
+      <!-- Result Card -->
+      <div class="panel result-panel" id="resultPanel">
+        <div class="result-idle" id="idleState">
+          <div class="idle-icon">🩺</div>
+          <div class="idle-title">No Prediction Yet</div>
+          <div class="idle-sub">Select your symptoms on the left, then click<br><strong>Predict Disease</strong></div>
+        </div>
+        <div class="result-content" id="resultContent" style="display:none"></div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="charts-row">
+
+        <!-- Top Predictions Bar -->
+        <div class="panel chart-panel">
+          <div class="panel-header">
+            <span class="panel-icon">📊</span>
+            <h3>Top Predictions</h3>
+          </div>
+          <div class="chart-wrap" style="position:relative">
+            <div class="chart-empty" id="probEmpty">Run a prediction to see results</div>
+            <canvas id="probChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Model Accuracy -->
+        <div class="panel chart-panel">
+          <div class="panel-header">
+            <span class="panel-icon">🏆</span>
+            <h3>Model Accuracy Comparison</h3>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="accChart"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Disease Distribution Doughnut -->
+      <div class="panel chart-panel">
+        <div class="panel-header">
+          <span class="panel-icon">🥧</span>
+          <h3>Disease Category Distribution</h3>
+        </div>
+        <div class="chart-wrap pie-wrap">
+          <canvas id="pieChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+
+</html>

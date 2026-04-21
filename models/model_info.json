@@ -1,0 +1,34 @@
+{
+  "best_model": "KNN",
+  "accuracy": 95.12,
+  "all_results": {
+    "Decision Tree": 76.62,
+    "Random Forest": 94.88,
+    "Naive Bayes": 89.25,
+    "KNN": 95.12,
+    "SVM": 95.0
+  },
+  "diseases": [
+    "Flu",
+    "Common Cold",
+    "COVID-19",
+    "Typhoid",
+    "Malaria",
+    "Dengue",
+    "Pneumonia",
+    "Tuberculosis",
+    "Diabetes",
+    "Hypertension",
+    "Asthma",
+    "Gastritis",
+    "Migraine",
+    "Chickenpox",
+    "Measles",
+    "Jaundice",
+    "Appendicitis",
+    "Kidney_Stone",
+    "Arthritis",
+    "Anemia"
+  ],
+  "total_symptoms": 53
+}
